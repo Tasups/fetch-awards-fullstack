@@ -1,27 +1,32 @@
 const express = require('express');
+const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const moment = require("moment");
-require('dotenv').config();
+// const moment = require("moment");  currently the model creates a date upon addPoints call through controllers
 
-const app = express();
+// initialize models and connect to database
+const points = require("./routes/points");
+const connectDB = require('./db/connect');
+require("dotenv").config();
+
+
+// middleware
 app.use(cors());
 app.use(bodyParser.json());
-
-const points = require('./routes/points')
-
-
 app.use(express.json())
 
+// routes
 app.use('api/v1/points', points)
 
-
+// port declaration
 const port = process.env.PORT || 3001; 
 
+// spin up server
 const start = async () => {
-  try{
+  try {
+    await connectDB(process.env.MONGO_URI);
     app.listen(port, () => 
-  console.log(`Server is listening on port ${port}...`));
+      console.log(`Server is listening on port ${port}...`));
   }
   catch (error) {
     console.log(error);
