@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
-const bodyParser = require("body-parser");
-const cors = require("cors");
+// const bodyParser = require("body-parser");
+// const cors = require("cors");
 // const moment = require("moment");  currently the model creates a date upon addPoints call through controllers
 
 // initialize models and connect to database
@@ -11,12 +11,12 @@ require("dotenv").config();
 
 
 // middleware
-app.use(cors());
-app.use(bodyParser.json());
+// app.use(cors());
+// app.use(bodyParser.json());
 app.use(express.json());
 
 // routes
-app.use('api/v1/points', points);
+app.use('/api/v1/points', points);
 
 // port declaration
 const port = process.env.PORT || 3001; 
