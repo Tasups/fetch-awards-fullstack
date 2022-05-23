@@ -10,6 +10,6 @@ const {
 
 router.route('/').get(getPoints).post(addPoints)
 router.route('/spendpoints').patch(spendPoints)
-router.route('/testpoints').get(testPoints)
+router.route('/testpoints').post(testPoints)
 
 module.exports = router

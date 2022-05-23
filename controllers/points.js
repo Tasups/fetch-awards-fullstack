@@ -2,7 +2,7 @@ const Points = require('../models/Points');
 const asyncWrapper = require('../middleware/async');
 
 /* GET ALL POINTS BY PAYER THIS ENDPOINT NEEDS TO CHANGE TO LOOK AT ALL THE OBJECTS IN THE DATABASE AND THEN GROUP THEM ALTOGETHER BY PAYER AND SUM UP POINTS BY PAYER */
-/* DONE 05/23/22 1306 */
+/* DONE 05/23/22 1306 **********************************************************************************/
 
 const getPoints = asyncWrapper(async (req, res) => {
   const points = await Points.find({});
@@ -25,25 +25,73 @@ const getPoints = asyncWrapper(async (req, res) => {
   res.status(200).json({ payers });
 })
 
-/* ADD POINTS TO THE DATABASE */
-// DONE 05/23/22 1308
+/* ADD POINTS TO THE DATABASE
+// DONE 05/23/22 1308 **********************************************************************************/
 
 const addPoints = asyncWrapper(async (req, res) => {
   const points = await Points.create(req.body)
   res.status(201).json({ points })
 })
 
-/* SPEND POINTS FROM OLDEST TO NEWEST */
+/* SPEND POINTS FROM OLDEST TO NEWEST ******************************************************************/
 
 const spendPoints = asyncWrapper(async (req, res) => {
-  const points = await Points.find({}) //this gets all objects from the db now to just filter through them for the oldest points first
-  res.status(200).json({ points })
+  // GET TOTAL POINTS TO MAKE SURE THAT YOU HAVE ADEQUATE NUMBER OF POINTS TO REDEEM
+  //let reqPoints = req.body.points
+  const totalPoints = await Points.aggregate([
+    {
+      $group: {
+        _id: "null",
+        points: { $sum: "$points" }
+      }
+    }
+  ]);
+
+//   db.collection.aggregate([
+//   {
+//     $group: {
+//       _id: "null",
+//       points: {
+//         $sum: "$points"
+//       }
+//     }
+//   }
+// ])
+
+  if (totalPoints < reqPoints) {
+    res.send({ "Message": "You do not have enough points for this transaction."})
+  }
+  // THIS GETS ALL OBJECTS FROM THE DB AND SORTS THEM BY DATE ASCENDING (OLDEST TO NEWEST SO THAT THE OLDEST POINTS ARE USED FIRST)
+  // const points = await Points.find().sort({ createdAt: 1 });
+  // res.status(200).json({ points })
 })
 
-/* TEST API  */
+/* TEST API  *********************************************************************************************/
 
 const testPoints = asyncWrapper(async (req, res) => {
-  res.status(200).send('ready for another test api to be developed');
+  // you can hardcode reqPoints until we can make the thing work
+  const reqPoints = req.body.points;
+  // mongodb call for total points
+  const totalPoints = await Points.aggregate([
+    {
+      $group: {
+        _id: "null",
+        points: { $sum: "$points" },
+      },
+    },
+  ]);
+  console.log(reqPoints);
+  console.log(totalPoints);
+  //for some odd reason, this isn't working. I'm getting a spinner as it tries to figure this out. How to write an error here?
+  if (totalPoints < reqPoints) {
+    res.send({"Message": "You do not have enough points for this transaction."})
+  } else if (totalPoints >= reqPoints) {
+    res
+      .status(200)
+      .send({
+        Message: `You have ${totalPoints - reqPoints} points remaining.`,
+      });
+  }  
 })
 
 
