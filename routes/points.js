@@ -5,7 +5,7 @@ const {
   getPoints,
   addPoints,
   spendPoints
-} = require('../controllers/tasks')
+} = require('../controllers/points')
 
 router.route('/').get(getPoints).post(addPoints)
 router.route('/spendpoints').patch(spendPoints)
