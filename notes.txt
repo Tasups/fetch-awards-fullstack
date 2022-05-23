@@ -1,0 +1,1 @@
+testPoints is a developer tool to flesh out other apis it is located in routes/points.js and controllers/points.js

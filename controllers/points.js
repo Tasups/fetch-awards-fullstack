@@ -22,9 +22,37 @@ const spendPoints = asyncWrapper(async (req, res) => {
   res.status(200).json({ points })
 })
 
+/* TEST API FOR AGGREGATING THE POINTS FROM EACH PAYER. WE CAN GET THE AGGREGATE AMOUNT OF POINTS FROM ONE PAYER BY MANUALLY PUTTING IN THE PAYER NAME/VALUE, BUT WE CANNOT DO IT FOR EVERY NAME/VALUE IN THE DATABASE */
+
+const testPoints = asyncWrapper(async (req, res) => {
+  const points = await Points.find({ payer: "MILLER COORS" })
+
+  var holder = {};
+
+  points.forEach(function (d) {
+    if (holder.hasOwnProperty(d.payer)) {
+      holder[d.payer] = holder[d.payer] + d.points;
+    } else {
+      holder[d.payer] = d.points;
+    }
+  });
+
+  let payers = [];
+
+  for (var prop in holder) {
+    payers.push({ payer: prop, points: holder[prop] });
+  }
+
+  console.log(payers);
+  res.status(200).json({ payers });
+})
+
+
+
 module.exports = {
   getPoints,
   addPoints,
-  spendPoints
+  spendPoints,
+  testPoints
 }
 
