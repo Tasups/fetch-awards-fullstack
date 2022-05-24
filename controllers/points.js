@@ -82,14 +82,14 @@ const testPoints = asyncWrapper(async (req, res) => {
   ]);
   console.log(reqPoints);
   console.log(totalPoints);
-  //for some odd reason, this isn't working. I'm getting a spinner as it tries to figure this out. How to write an error here?
-  if (totalPoints < reqPoints) {
+
+  if (totalPoints[0].points < reqPoints) {
     res.send({"Message": "You do not have enough points for this transaction."})
-  } else if (totalPoints >= reqPoints) {
+  } else if (totalPoints[0].points >= reqPoints) {
     res
       .status(200)
       .send({
-        Message: `You have ${totalPoints - reqPoints} points remaining.`,
+        Message: `You have ${totalPoints[0].points - reqPoints} points remaining.`,
       });
   }  
 })
