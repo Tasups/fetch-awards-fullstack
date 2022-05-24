@@ -39,11 +39,6 @@
         "@first": true
     },
     "workspace": {
-        "@folders": [
-            {
-                "name": "public",
-                "path": "/public"
-            }
-        ]
+        "@folders": []
     }
 }
