@@ -1,3 +1,5 @@
+// maybe consider changing points to the array in the parameter of the function paymentProcess?
+
 const points = [
   {
     payer: "DANNON",
@@ -29,11 +31,20 @@ const points = [
 let pointsPayment = 5000;
 
 const paymentProcess = (array) => {
+  // store initial array so that the difference can be calculated later and returned
+  let pointsArrayClone = []
+  for (let j = 0; j < array.length; j++) {
+    let jObj = {}
+    jObj['payer'] = array[j].payer
+    jObj['points'] = array[j].points
+    pointsArrayClone.push(jObj)
+  }
+
   // as long as pointsPayment hasn't been paid down/isn't 0 do this
   while (pointsPayment > 0) {
     // iterate through the points array
-    for (let i = 0; i < points.length; i++) {
-      console.log(points[i].payer, points[i].points)
+    for (let i = 0; i < array.length; i++) {
+      console.log(array[i].payer, array[i].points)
       // as long as the points to be spent are larger than the points in the array index [i], continue the process
       if (pointsPayment >= points[i].points) {
         // store the difference betweeen the points to be paid and the points in the array index[i]
