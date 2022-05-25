@@ -2,7 +2,7 @@ const points = [
   {
     payer: "DANNON",
     points: 300,
-    createdAt: 1
+    createdAt: 1 // createdAt has been changed to reflect their order and simplified
   },
   {
     payer: "UNILEVER",
@@ -34,12 +34,8 @@ const paymentProcess = (array) => {
     // iterate through the points array
     for (let i = 0; i < points.length; i++) {
       console.log(points[i].payer, points[i].points)
-      // as long as the points to be spent are larger than the points in the array index [i] AND the points in the array index[i] are a           // positive number, continue the process
-      if (points[i].points < 0) {
-        points[i].points = 0
-        console.log(points[i].payer, points[i].points)
-      }
-      if (pointsPayment >= points[i].points && points[i].points > 0) {
+      // as long as the points to be spent are larger than the points in the array index [i], continue the process
+      if (pointsPayment >= points[i].points) {
         // store the difference betweeen the points to be paid and the points in the array index[i]
         let placeHolder = pointsPayment - points[i].points
          // if the remainder >= 0, set points in the array index[i] to 0
@@ -47,8 +43,8 @@ const paymentProcess = (array) => {
           points[i].points = 0
           pointsPayment = placeHolder
           console.log(pointsPayment, points[i].payer, points[i].points)
-        // if points stored are more than the points to be spent, subtract them from the points in the index and set placeHolder to 0,             // which later dictates what pointsPayment will be
         } 
+        // if points stored are more than the points to be spent, subtract them from the points in the array index[0] and set placeHolder to 0, which later dictates what pointsPayment will be
       } else if (points[i].points > pointsPayment) {
           points[i].points -= pointsPayment
           pointsPayment = 0
@@ -56,6 +52,7 @@ const paymentProcess = (array) => {
         } 
     }
     return pointsPayment
+    // use mongodb call to list out each payer and their aggregate points change
   } 
 }
 
