@@ -21,29 +21,33 @@
 
 // console.log(newObj);
 
-let array1 = [
-    {
-        payer: "Miller Coors",
-        points: 10000
-    }
+let pointsLeft = [
+  { payer: "DANNON", points: 0, createdAt: 1 },
+  { payer: "UNILEVER", points: 0, createdAt: 2 },
+  { payer: "DANNON", points: 0, createdAt: 3 },
+  { payer: "MILLER COORS", points: 5300, createdAt: 4 },
+  { payer: "DANNON", points: 1000, createdAt: 5 },
 ];
 
-let array2 = [
-    {
-        pointsOwed: 5700
-    }
+let originalPoints = [
+  { payer: "DANNON", points: 300 },
+  { payer: "UNILEVER", points: 200 },
+  { payer: "DANNON", points: -200 },
+  { payer: "MILLER COORS", points: 10000 },
+  { payer: "DANNON", points: 1000 },
 ];
 
-if (array1.length != array2.length) {
-  res.send("there is an error!");
-}
+// This would be used to check that both arrays are the same length
+// if (array1.length != array2.length) {
+//   res.send("there is an error!");
+// }
 
-for (let i = 0; i < array1.length; i++) {
-  const payerPoints = { points: array1[i].points };
-  const pointsAvailable = { points: array2[i].pointsOwed };
+for (let i = 0; i < pointsLeft.length; i++) {
+  const payerPoints = { points: pointsLeft[i].points };
+  const pointsAvailable = { points: originalPoints[i].points };
   const difference = {
-      difference1: payerPoints.points - pointsAvailable.points,
-      difference2: pointsAvailable.points - payerPoints.points
+    difference1: payerPoints.points - pointsAvailable.points,
+    difference2: pointsAvailable.points - payerPoints.points,
   };
   console.log(difference);
 }
