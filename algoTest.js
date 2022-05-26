@@ -1,5 +1,7 @@
 // maybe consider changing points to the array in the parameter of the function paymentProcess?
 
+const res = require("express/lib/response");
+
 const points = [
   {
     payer: "DANNON",
@@ -45,7 +47,6 @@ const paymentProcess = (array) => {
   while (pointsPayment > 0) {
     // iterate through the points array
     for (let i = 0; i < array.length; i++) {
-      // console.log(array[i].payer, array[i].points)
       // as long as the points to be spent are larger than the points in the array index [i], continue the process
       if (pointsPayment >= points[i].points) {
         // store the difference betweeen the points to be paid and the points in the array index[i]
@@ -54,13 +55,11 @@ const paymentProcess = (array) => {
         if (placeHolder >= 0) {
           points[i].points = 0
           pointsPayment = placeHolder
-          //console.log(pointsPayment, points[i].payer, points[i].points)
         } 
         // if points stored are more than the points to be spent, subtract them from the points in the array index[0] and set placeHolder to 0, which later dictates what pointsPayment will be
       } else if (points[i].points > pointsPayment) {
           points[i].points -= pointsPayment
           pointsPayment = 0
-          //console.log(points[i].payer, points[i].points)
         } 
     }
     return pointsPayment
@@ -101,3 +100,50 @@ console.log(pointsPayment, points, pointsArrayClone)
 if (pointsPayment === 0) {
     console.log("YOU ARE OUT OF POINTS MOTHERFUCKER!!!")
   }
+
+
+
+
+
+
+
+
+
+
+
+
+let array1 = ['stuff']
+let array2 = ['more stuff']
+
+if (array1.length != array2.length) {
+  res.send('there is an error!')
+}
+
+for (let i = 0; i < array1.length; i++) {
+  const payerPoints = { points: array1[i].points }
+  const pointsAvailable = { points: array2[i].points }
+  const difference = { difference: payerPoints.points - pointsAvailable.points }
+  console.log(difference)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
