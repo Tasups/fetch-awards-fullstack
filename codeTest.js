@@ -41,14 +41,15 @@ let originalPoints = [
 // if (array1.length != array2.length) {
 //   res.send("there is an error!");
 // }
-
+let differenceArray = []
 for (let i = 0; i < pointsLeft.length; i++) {
   const payerPoints = { points: pointsLeft[i].points };
   const pointsAvailable = { points: originalPoints[i].points };
-  const difference = {
-    difference1: payerPoints.points - pointsAvailable.points,
-    difference2: pointsAvailable.points - payerPoints.points,
-  };
+    const difference = {
+        payer: pointsLeft[i].payer,
+        difference: payerPoints.points - pointsAvailable.points,
+    };
+    //if (differenceArray.hasOwnProperty())
   console.log(difference);
 }
 
